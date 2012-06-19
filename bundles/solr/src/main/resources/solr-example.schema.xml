@@ -16,10 +16,10 @@
  limitations under the License.
 -->
 
-<!--
+<!--  
  This is the Solr schema file. This file should be named "schema.xml" and
  should be in the conf directory under the solr home
- (i.e. ./solr/conf/schema.xml by default)
+ (i.e. ./solr/conf/schema.xml by default) 
  or located where the classloader for the Solr webapp can find it.
 
  This example schema is the recommended starting point for users.
@@ -50,7 +50,7 @@
        version="x.y" is Solr's version number for the schema syntax and semantics.  It should
        not normally be changed by applications.
        1.0: multiValued attribute did not exist, all fields are multiValued by nature
-       1.1: multiValued attribute introduced, false by default
+       1.1: multiValued attribute introduced, false by default 
        1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
        1.3: removed optional field compress feature
        1.4: default auto-phrase (QueryParser feature) to off
@@ -60,7 +60,7 @@
  <fields>
    <!-- Valid attributes for fields:
      name: mandatory - the name for the field
-     type: mandatory - the name of a field type from the
+     type: mandatory - the name of a field type from the 
        <types> fieldType section
      indexed: true if this field should be indexed (searchable or sortable)
      stored: true if this field should be retrievable
@@ -74,9 +74,9 @@
        given field.
        When using MoreLikeThis, fields used for similarity should be
        stored for best performance.
-     termPositions: Store position information with the term vector.
+     termPositions: Store position information with the term vector.  
        This will increase storage costs.
-     termOffsets: Store offset information with the term vector. This
+     termOffsets: Store offset information with the term vector. This 
        will increase storage costs.
      required: The field is required.  It will throw an error if the
        value does not exist
@@ -90,9 +90,8 @@
       and back compatibility is not guaranteed.  Names with both leading and
       trailing underscores (e.g. _version_) are reserved.
    -->
-
-   <!--
-   <field name="id" type="string" indexed="true" stored="true" required="true" />
+        
+   <field name="id" type="string" indexed="true" stored="true" required="true" /> 
    <field name="sku" type="text_en_splitting_tight" indexed="true" stored="true" omitNorms="true"/>
    <field name="name" type="text_general" indexed="true" stored="true"/>
    <field name="manu" type="text_general" indexed="true" stored="true" omitNorms="true"/>
@@ -106,14 +105,12 @@
    <field name="inStock" type="boolean" indexed="true" stored="true" />
 
    <field name="store" type="location" indexed="true" stored="true"/>
-   -->
 
    <!-- Common metadata fields, named specifically to match up with
      SolrCell metadata when parsing rich documents such as Word, PDF.
      Some fields are multiValued only because Tika currently may return
      multiple values for them.
    -->
-   <!--
    <field name="title" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="subject" type="text_general" indexed="true" stored="true"/>
    <field name="description" type="text_general" indexed="true" stored="true"/>
@@ -124,7 +121,7 @@
    <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="last_modified" type="date" indexed="true" stored="true"/>
    <field name="links" type="string" indexed="true" stored="true" multiValued="true"/>
-   -->
+
 
    <!-- catchall field, containing all other searchable text fields (implemented
         via copyField further on in this schema  -->
@@ -136,14 +133,12 @@
 
    <!-- non-tokenized version of manufacturer to make it easier to sort or group
         results by manufacturer.  copied from "manu" via copyField -->
-   <!--
    <field name="manu_exact" type="string" indexed="true" stored="false"/>
 
    <field name="payloads" type="payloads" indexed="true" stored="true"/>
 
 
    <field name="_version_" type="long" indexed="true" stored="true"/>
-   -->
 
    <!-- Uncommenting the following will create a "timestamp" field using
         a default value of "NOW" to indicate when each document was indexed.
@@ -153,12 +148,11 @@
      -->
 
    <!-- Dynamic field definitions allow using convention over configuration
-       for fields via the specification of patterns to match field names.
+       for fields via the specification of patterns to match field names. 
        EXAMPLE:  name="*_i" will match any field ending in _i (like myid_i, z_i)
        RESTRICTION: the glob-like pattern in the name attribute must have
        a "*" only at the start or the end.  -->
-
-   <!--
+   
    <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
    <dynamicField name="*_is" type="int"    indexed="true"  stored="true"  multiValued="true"/>
    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
@@ -174,19 +168,15 @@
    <dynamicField name="*_fs" type="float"  indexed="true"  stored="true"  multiValued="true"/>
    <dynamicField name="*_d"  type="double" indexed="true"  stored="true"/>
    <dynamicField name="*_ds" type="double" indexed="true"  stored="true"  multiValued="true"/>
-   -->
 
    <!-- Type used to index the lat and lon components for the "location" FieldType -->
-   <!--
    <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false" />
 
    <dynamicField name="*_dt"  type="date"    indexed="true"  stored="true"/>
    <dynamicField name="*_dts" type="date"    indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_p"  type="location" indexed="true" stored="true"/>
-   -->
 
    <!-- some trie-coded dynamic fields for faster range queries -->
-   <!--
    <dynamicField name="*_ti" type="tint"    indexed="true"  stored="true"/>
    <dynamicField name="*_tl" type="tlong"   indexed="true"  stored="true"/>
    <dynamicField name="*_tf" type="tfloat"  indexed="true"  stored="true"/>
@@ -198,116 +188,19 @@
 
    <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
    <dynamicField name="attr_*" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   -->
 
    <dynamicField name="random_*" type="random" />
 
-   <!-- uncomment the following to ignore any fields that don't already match an existing
-        field name or dynamic field, rather than reporting them as an error.
-        alternately, change the type="ignored" to some other type e.g. "text" if you want
-        unknown fields indexed and/or stored by default -->
+   <!-- uncomment the following to ignore any fields that don't already match an existing 
+        field name or dynamic field, rather than reporting them as an error. 
+        alternately, change the type="ignored" to some other type e.g. "text" if you want 
+        unknown fields indexed and/or stored by default --> 
    <!--dynamicField name="*" type="ignored" multiValued="true" /-->
-
-   <!-- Sakai general -->
-   <field name="id" type="string" indexed="true" stored="true" required="true" />
-   <field name="resourceType" type="string" indexed="true" stored="true" termVectors="true" />
-   <field name="content" type="text_en_splitting" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true" />
-   <field name="_createdBy" type="string" indexed="true" stored="false" />
-   <field name="_created" type="long" indexed="true" stored="true" />
-   <field name="_lastModifiedBy" type="string" indexed="true" stored="false" />
-   <field name="_lastModified" type="long" indexed="true" stored="false" />
-   <field name="readers" type="string" indexed="true" stored="true" multiValued="true" termVectors="true" />
-   <field name="path" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="countLastUpdate" type="long" indexed="true" stored="true" />
-
-   <!--  sakai/pooled-content -->
-   <field name="needsprocessing" type="string" indexed="true" stored="true" />
-   <field name="manager" type="string" indexed="true" stored="true" termVectors="true" multiValued="true" />
-   <field name="editor" type="string" indexed="true" stored="true" termVectors="true" multiValued="true" />
-   <field name="viewer" type="string" indexed="true" stored="true" termVectors="true" multiValued="true" />
-   <field name="filename" type="text_en_splitting" indexed="true" stored="true" />
-   <field name="file" type="string" indexed="true" stored="true" />
-   <field name="tagname" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="tag" type="text_en_splitting" indexed="true" stored="true"  multiValued="true" />
-   <field name="linkpaths" type="string" indexed="true" stored="false" />
-   <field name="mimeType" type="string" indexed="true" stored="false" />
-   <field name="pagecount" type="string" indexed="true" stored="false" />
-   <field name="comment" type="string" indexed="true" stored="false" />
-   <field name="hasPreview" type="string" indexed="true" stored="true" />
-   <field name="showalways" type="boolean" indexed="true" stored="false" />
-
-   <!-- sakai users -->
-   <field name="name" type="text_ci" indexed="true" stored="true" termVectors="true" />
-   <field name="firstName" type="text_en_splitting" indexed="true" stored="true" />
-   <field name="lastName" type="text_en_splitting" indexed="true" stored="true" />
-   <field name="email" type="text_ci" indexed="true" stored="true" />
-   <field name="type" type="string" indexed="true" stored="true" termVectors="true" />
-   <field name="group" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="profile" type="text_en_splitting" indexed="true" stored="false" multiValued="true" />
-   <field name="exclude" type="boolean" indexed="true" stored="false" />
-
-   <!-- sakai groups -->
-   <field name="title" type="text_en_splitting" indexed="true" stored="true" termVectors="true" />
-   <field name="description" type="text_en_splitting" indexed="true" stored="true" />
-
-   <!-- sakai/activity -->
-   <field name="timestamp" type="long" indexed="true" stored="false" />
-
-   <!-- sakai/contact -->
-   <field name="state" type="string" indexed="true" stored="true" />
-   <field name="contactstorepath" type="string" indexed="true" stored="false" />
-
-   <!-- sakai/message -->
-   <field name="messagebox" type="string" indexed="true" stored="false" />
-   <field name="messagestore" type="string" indexed="true" stored="false" />
-   <field name="category" type="string" indexed="true" stored="true" />
-   <field name="from" type="string" indexed="true" stored="false" />
-   <field name="to" type="string" indexed="true" stored="false" />
-   <field name="read" type="boolean" indexed="true" stored="false" />
-
-   <!-- sakai/discussion -->
-   <field name="marker" type="string" indexed="true" stored="false" />
-   <field name="sendstate" type="string" indexed="true" stored="false" />
-   <field name="initialpost" type="string" indexed="true" stored="false" />
-
-   <!-- sakai/calendar -->
-   <field name="vcal-DTSTART" type="date" indexed="true" stored="false" />
-
-   <!-- sakai/widget-data -->
-   <field name="widgetdata" type="text_en_splitting" indexed="true" stored="false" />
-
-   <!-- used by searches that return a path that isn't the indexed content itself -->
-   <field name="returnpath" type="string" indexed="true" stored="false" />
-
-   <!--  general sakai -->
-   <field name="general" type="text_en_splitting" indexed="true" stored="false" multiValued="true" />
-   <field name="ngram" type="textgen" indexed="true" stored="false" multiValued="true" />
-   <field name="edgengram" type="edgetextgen" indexed="true" stored="false" multiValued="true" />
-
-   <dynamicField name="sakai*"  type="string"  indexed="true"  stored="true"/>
-   <dynamicField name="random_*" type="random" indexed="true" stored="false"/>
-
-   <!-- fields used for sorting -->
-   <!-- several of these fields have the same type as their analog but are repeated here -->
-   <!-- for consistency of use and lower maintenance cost. if a field needs to be used   -->
-   <!-- for sorting then it should have an analogous field listed here. These fields are -->
-   <!-- populated with copyField directives further down in this file.                   -->
-   <field name="_created_sort" type="long" indexed="true" stored="false" />
-   <field name="_lastModified_sort" type="long" indexed="true" stored="false" />
-   <field name="timestamp_sort" type="long" indexed="true" stored="false" />
-   <field name="vcal-DTSTART_sort" type="date" indexed="true" stored="false" />
-   <field name="title_sort" type="lowercase" indexed="true" stored="false" />
-   <field name="firstName_sort" type="lowercase" indexed="true" stored="false" />
-   <field name="lastName_sort" type="lowercase" indexed="true" stored="false" />
-   <field name="filename_sort" type="lowercase" indexed="true" stored="false" />
-   <!-- do not use copyField to populate general_sort. see the data dictionaory for details -->
-   <!-- https://confluence.sakaiproject.org/display/KERNDOC/Data+Dictionary+for+Solr+Schema -->
-   <field name="general_sort" type="lowercase" indexed="true" stored="false" />
-
+   
  </fields>
 
 
- <!-- Field to use to determine and enforce document uniqueness.
+ <!-- Field to use to determine and enforce document uniqueness. 
       Unless this field is marked with required="false", it will be a required field
    -->
  <uniqueKey>id</uniqueKey>
@@ -322,30 +215,26 @@
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
 
-   <!--
    <copyField source="cat" dest="text"/>
    <copyField source="name" dest="text"/>
    <copyField source="manu" dest="text"/>
    <copyField source="features" dest="text"/>
    <copyField source="includes" dest="text"/>
    <copyField source="manu" dest="manu_exact"/>
-   -->
 
    <!-- Copy the price into a currency enabled field (default USD) -->
-   <!--
    <copyField source="price" dest="price_c"/>
-   -->
-
-   <!-- Above, multiple source fields are copied to the [text] field.
-	  Another way to map multiple source fields to the same
-	  destination field is to use the dynamic field syntax.
+	
+   <!-- Above, multiple source fields are copied to the [text] field. 
+	  Another way to map multiple source fields to the same 
+	  destination field is to use the dynamic field syntax. 
 	  copyField also supports a maxChars to copy setting.  -->
-
+	   
    <!-- <copyField source="*_t" dest="text" maxChars="3000"/> -->
 
    <!-- copy name to alphaNameSort, a field designed for sorting by name -->
    <!-- <copyField source="name" dest="alphaNameSort"/> -->
-
+ 
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine
@@ -392,7 +281,7 @@
        - If sortMissingLast="false" and sortMissingFirst="false" (the default),
          then default lucene sorting will be used which places docs without the
          field first in an ascending sort and last in a descending sort.
-    -->
+    -->    
 
     <!--
       Default numeric field types. For faster range queries, consider the tint/tfloat/tlong/tdouble types.
@@ -419,7 +308,7 @@
 
     <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
          is a more restricted form of the canonical representation of dateTime
-         http://www.w3.org/TR/xmlschema-2/#dateTime
+         http://www.w3.org/TR/xmlschema-2/#dateTime    
          The trailing "Z" designates UTC time and is mandatory.
          Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
          All other components are mandatory.
@@ -434,7 +323,7 @@
                NOW/DAY+6MONTHS+3DAYS
                   ... 6 months and 3 days in the future from the start of
                       the current day
-
+                      
          Consult the DateField javadocs for more information.
 
          Note: For faster range queries, consider the tdate type
@@ -452,7 +341,7 @@
       Note:
       These should only be used for compatibility with existing indexes (created with lucene or older Solr versions).
       Use Trie based fields instead. As of Solr 3.5 and 4.x, Trie based fields support sortMissingFirst/Last
-
+      
       Plain numeric field types that store and index the text
       value verbatim (and hence don't correctly support range queries, since the
       lexicographic ordering isn't equal to the numeric ordering)
@@ -465,11 +354,11 @@
 
     <!-- The "RandomSortField" is not used to store or search any
          data.  You can declare fields of this type it in your schema
-         to generate pseudo-random orderings of your docs for sorting
+         to generate pseudo-random orderings of your docs for sorting 
          or function purposes.  The ordering is generated based on the field
          name and the version of the index. As long as the index version
          remains unchanged, and the same field name is reused,
-         the ordering of the docs will be consistent.
+         the ordering of the docs will be consistent.  
          If you want different psuedo-random orderings of documents,
          for the same version of the index, use a dynamicField and
          change the field name in the request.
@@ -678,13 +567,13 @@
         <filter class="solr.TrimFilterFactory" />
         <!-- The PatternReplaceFilter gives you the flexibility to use
              Java Regular expression to replace any sequence of characters
-             matching a pattern with an arbitrary replacement string,
+             matching a pattern with an arbitrary replacement string, 
              which may include back references to portions of the original
              string matched by the pattern.
-
+             
              See the Java Regular Expression documentation for more
              information on pattern and replacement string syntax.
-
+             
              http://java.sun.com/j2se/1.6.0/docs/api/java/util/regex/package-summary.html
           -->
         <filter class="solr.PatternReplaceFilterFactory"
@@ -692,7 +581,7 @@
         />
       </analyzer>
     </fieldType>
-
+    
     <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -706,7 +595,7 @@
         <!--
         The DelimitedPayloadTokenFilter can put payloads on tokens... for example,
         a token of "foo|1.4"  would be indexed as "foo" with a payload of 1.4f
-        Attributes of the DelimitedPayloadTokenFilterFactory :
+        Attributes of the DelimitedPayloadTokenFilterFactory : 
          "delimiter" - a one character delimiter. Default is | (pipe)
 	 "encoder" - how to encode the following value into a playload
 	    float -> org.apache.lucene.analysis.payloads.FloatEncoder,
@@ -734,12 +623,12 @@
 
 
     <!-- since fields of this type are by default not stored or indexed,
-         any data added to them will be ignored outright.  -->
+         any data added to them will be ignored outright.  --> 
     <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
 
     <!-- This point type indexes the coordinates as separate fields (subFields)
       If subFieldType is defined, it references a type, and a dynamic field
-      definition is created matching *___<typename>.  Alternately, if
+      definition is created matching *___<typename>.  Alternately, if 
       subFieldSuffix is defined, that is used to create the subFields.
       Example: if subFieldType="double", then the coordinates would be
         indexed in fields myloc_0___double,myloc_1___double.
@@ -770,16 +659,15 @@
                              ratesFileLocation: URL or path to rates JSON file (default latest.json on the web)
                              refreshInterval: Number of minutes between each rates fetch (default: 1440, min: 60)
    -->
-    <!--
     <fieldType name="currency" class="solr.CurrencyField" precisionStep="8" defaultCurrency="USD" currencyConfig="currency.xml" />
-    -->
+             
 
 
    <!-- some examples for different languages (generally ordered by ISO code) -->
 
     <!-- Arabic -->
     <fieldType name="text_ar" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- for any non-arabic -->
         <filter class="solr.LowerCaseFilterFactory"/>
@@ -792,26 +680,26 @@
 
     <!-- Bulgarian -->
     <fieldType name="text_bg" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
-        <tokenizer class="solr.StandardTokenizerFactory"/>
+      <analyzer> 
+        <tokenizer class="solr.StandardTokenizerFactory"/> 
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_bg.txt" enablePositionIncrements="true"/>
-        <filter class="solr.BulgarianStemFilterFactory"/>
+        <filter class="solr.BulgarianStemFilterFactory"/>       
       </analyzer>
     </fieldType>
-
+    
     <!-- Catalan -->
     <fieldType name="text_ca" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- removes l', etc -->
         <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ca.txt"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ca.txt" enablePositionIncrements="true"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="Catalan"/>       
       </analyzer>
     </fieldType>
-
+    
     <!-- CJK bigram (see text_ja for a Japanese configuration using morphological analysis) -->
     <fieldType name="text_cjk" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
@@ -826,27 +714,27 @@
 
     <!-- Czech -->
     <fieldType name="text_cz" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_cz.txt" enablePositionIncrements="true"/>
-        <filter class="solr.CzechStemFilterFactory"/>
+        <filter class="solr.CzechStemFilterFactory"/>       
       </analyzer>
     </fieldType>
-
+    
     <!-- Danish -->
     <fieldType name="text_da" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_da.txt" format="snowball" enablePositionIncrements="true"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>       
       </analyzer>
     </fieldType>
-
+    
     <!-- German -->
     <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_de.txt" format="snowball" enablePositionIncrements="true"/>
@@ -856,10 +744,10 @@
         <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="German2"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Greek -->
     <fieldType name="text_el" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- greek specific lowercase for sigma -->
         <filter class="solr.GreekLowerCaseFilterFactory"/>
@@ -867,10 +755,10 @@
         <filter class="solr.GreekStemFilterFactory"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Spanish -->
     <fieldType name="text_es" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_es.txt" format="snowball" enablePositionIncrements="true"/>
@@ -878,17 +766,17 @@
         <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Spanish"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Basque -->
     <fieldType name="text_eu" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_eu.txt" enablePositionIncrements="true"/>
         <filter class="solr.SnowballPorterFilterFactory" language="Basque"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Persian -->
     <fieldType name="text_fa" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
@@ -901,10 +789,10 @@
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fa.txt" enablePositionIncrements="true"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Finnish -->
     <fieldType name="text_fi" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fi.txt" format="snowball" enablePositionIncrements="true"/>
@@ -912,10 +800,10 @@
         <!-- less aggressive: <filter class="solr.FinnishLightStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- French -->
     <fieldType name="text_fr" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- removes l', etc -->
         <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_fr.txt"/>
@@ -926,10 +814,10 @@
         <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="French"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Irish -->
     <fieldType name="text_ga" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- removes d', etc -->
         <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_ga.txt"/>
@@ -940,10 +828,10 @@
         <filter class="solr.SnowballPorterFilterFactory" language="Irish"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Galician -->
     <fieldType name="text_gl" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_gl.txt" enablePositionIncrements="true"/>
@@ -951,10 +839,10 @@
         <!-- less aggressive: <filter class="solr.GalicianMinimalStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Hindi -->
     <fieldType name="text_hi" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <!-- normalizes unicode representation -->
@@ -965,31 +853,31 @@
         <filter class="solr.HindiStemFilterFactory"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Hungarian -->
     <fieldType name="text_hu" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_hu.txt" format="snowball" enablePositionIncrements="true"/>
         <filter class="solr.SnowballPorterFilterFactory" language="Hungarian"/>
-        <!-- less aggressive: <filter class="solr.HungarianLightStemFilterFactory"/> -->
+        <!-- less aggressive: <filter class="solr.HungarianLightStemFilterFactory"/> -->   
       </analyzer>
     </fieldType>
-
+    
     <!-- Armenian -->
     <fieldType name="text_hy" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_hy.txt" enablePositionIncrements="true"/>
         <filter class="solr.SnowballPorterFilterFactory" language="Armenian"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Indonesian -->
     <fieldType name="text_id" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_id.txt" enablePositionIncrements="true"/>
@@ -997,10 +885,10 @@
         <filter class="solr.IndonesianStemFilterFactory" stemDerivational="true"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Italian -->
     <fieldType name="text_it" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <!-- removes l', etc -->
         <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_it.txt"/>
@@ -1010,11 +898,11 @@
         <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Italian"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Japanese using morphological analysis (see text_cjk for a configuration using bigramming)
 
          NOTE: If you want to optimize search for precision, use default operator AND in your query
-         parser config with <solrQueryParser defaultOperator="AND"/> further down in this file.  Use
+         parser config with <solrQueryParser defaultOperator="AND"/> further down in this file.  Use 
          OR if you would like to optimize for recall (default).
     -->
     <fieldType name="text_ja" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="false">
@@ -1061,20 +949,20 @@
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Latvian -->
     <fieldType name="text_lv" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_lv.txt" enablePositionIncrements="true"/>
         <filter class="solr.LatvianStemFilterFactory"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Dutch -->
     <fieldType name="text_nl" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_nl.txt" format="snowball" enablePositionIncrements="true"/>
@@ -1082,10 +970,10 @@
         <filter class="solr.SnowballPorterFilterFactory" language="Dutch"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Norwegian -->
     <fieldType name="text_no" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_no.txt" format="snowball" enablePositionIncrements="true"/>
@@ -1094,10 +982,10 @@
         <!-- singular/plural: <filter class="solr.NorwegianMinimalStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Portuguese -->
     <fieldType name="text_pt" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_pt.txt" format="snowball" enablePositionIncrements="true"/>
@@ -1107,20 +995,20 @@
         <!-- most aggressive: <filter class="solr.PortugueseStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Romanian -->
     <fieldType name="text_ro" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ro.txt" enablePositionIncrements="true"/>
         <filter class="solr.SnowballPorterFilterFactory" language="Romanian"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Russian -->
     <fieldType name="text_ru" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ru.txt" format="snowball" enablePositionIncrements="true"/>
@@ -1128,10 +1016,10 @@
         <!-- less aggressive: <filter class="solr.RussianLightStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Swedish -->
     <fieldType name="text_sv" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_sv.txt" format="snowball" enablePositionIncrements="true"/>
@@ -1139,20 +1027,20 @@
         <!-- less aggressive: <filter class="solr.SwedishLightStemFilterFactory"/> -->
       </analyzer>
     </fieldType>
-
+    
     <!-- Thai -->
     <fieldType name="text_th" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.ThaiWordFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_th.txt" enablePositionIncrements="true"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- Turkish -->
     <fieldType name="text_tr" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
+      <analyzer> 
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.TurkishLowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="false" words="lang/stopwords_tr.txt" enablePositionIncrements="true"/>
