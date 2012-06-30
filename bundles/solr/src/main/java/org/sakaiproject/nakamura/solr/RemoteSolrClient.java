@@ -87,7 +87,7 @@ public class RemoteSolrClient implements SolrClient {
 
 	private SolrClientListener listener;
 
-	private SolrServer queryServer;
+	private CommonsHttpSolrServer queryServer;
 
 	@SuppressWarnings("unchecked")
 	@Activate
@@ -97,7 +97,7 @@ public class RemoteSolrClient implements SolrClient {
 		.getProperties();
 		solrHome = Utils.getSolrHome(bundleContext);
 	}
-		
+
 	public void enable(SolrClientListener listener) throws IOException,
 		ParserConfigurationException, SAXException {
 		if ( enabled ) {
@@ -109,76 +109,52 @@ public class RemoteSolrClient implements SolrClient {
 	}
 	
 	
-	private SolrServer createQueryServer() throws MalformedURLException {
-		
-		String url = Utils.toString(properties.get(PROP_SOLR_URL),
-				"http://localhost:8983/solr");
-		StreamingUpdateSolrServer server = new StreamingUpdateSolrServer(url, Utils.toInt(
-				properties.get(PROP_QUEUE_SIZE), 100), Utils.toInt(
-				properties.get(PROP_THREAD_COUNT), 10));
-		server.setSoTimeout(Utils.toInt(properties.get(PROP_SO_TIMEOUT),
-				1000)); // socket
-						// read
-						// timeout
-		server.setConnectionTimeout(Utils.toInt(
-				properties.get(PROP_CONNECTION_TIMEOUT), 100));
-		server.setDefaultMaxConnectionsPerHost(Utils.toInt(
-				properties.get(PROP_MAX_CONNECTONS_PER_HOST), 100));
-		server.setMaxTotalConnections(Utils.toInt(
-				properties.get(PROP_MAX_TOTAL_CONNECTONS), 100));
-		server.setFollowRedirects(Utils.toBoolean(
-				properties.get(PROP_FOLLOW), false)); // defaults
-														// to
-														// false
-		// allowCompression defaults to false.
-		// Server side must support gzip or deflate for this to have any effect.
-		server.setAllowCompression(Utils.toBoolean(
-				properties.get(PROP_ALLOW_COMPRESSION), true));
-		server.setMaxRetries(Utils.toInt(
-				properties.get(PROP_MAX_RETRIES), 1)); // defaults
-														// to 0.
-														// > 1
-														// not
-														// recommended.
-		server.setParser(new BinaryResponseParser()); // binary parser is used
-														// by default
-		return server;
+	private CommonsHttpSolrServer createQueryServer() throws MalformedURLException {
+    String url = Utils.toString(properties.get(PROP_SOLR_URL),
+        "http://localhost:8983/solr");
+    CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
+    server.setSoTimeout(Utils.toInt(properties.get(PROP_SO_TIMEOUT),
+        1000)); // socket
+    // read
+    // timeout
+    server.setConnectionTimeout(Utils.toInt(
+        properties.get(PROP_CONNECTION_TIMEOUT), 100));
+    server.setDefaultMaxConnectionsPerHost(Utils.toInt(
+        properties.get(PROP_MAX_CONNECTONS_PER_HOST), 100));
+    server.setMaxTotalConnections(Utils.toInt(
+        properties.get(PROP_MAX_TOTAL_CONNECTONS), 100));
+    server.setFollowRedirects(Utils.toBoolean(
+        properties.get(PROP_FOLLOW), false)); // defaults
+    // to
+    // false
+    // allowCompression defaults to false.
+    // Server side must support gzip or deflate for this to have any effect.
+    server.setAllowCompression(Utils.toBoolean(
+        properties.get(PROP_ALLOW_COMPRESSION), true));
+    server.setMaxRetries(Utils.toInt(
+        properties.get(PROP_MAX_RETRIES), 1)); // defaults
+    // to 0.
+    // > 1
+    // not
+    // recommended.
+    server.setParser(new BinaryResponseParser()); // binary parser is used
+    // by default
+    return server;
 	}
 
-	
 	private SolrServer createUpdateServer() throws MalformedURLException {
-		
-		String url = Utils.toString(properties.get(PROP_SOLR_URL),
-				"http://localhost:8983/solr");
-		CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
-		server.setSoTimeout(Utils.toInt(properties.get(PROP_SO_TIMEOUT),
-				1000)); // socket
-						// read
-						// timeout
-		server.setConnectionTimeout(Utils.toInt(
-				properties.get(PROP_CONNECTION_TIMEOUT), 100));
-		server.setDefaultMaxConnectionsPerHost(Utils.toInt(
-				properties.get(PROP_MAX_CONNECTONS_PER_HOST), 100));
-		server.setMaxTotalConnections(Utils.toInt(
-				properties.get(PROP_MAX_TOTAL_CONNECTONS), 100));
-		server.setFollowRedirects(Utils.toBoolean(
-				properties.get(PROP_FOLLOW), false)); // defaults
-														// to
-														// false
-		// allowCompression defaults to false.
-		// Server side must support gzip or deflate for this to have any effect.
-		server.setAllowCompression(Utils.toBoolean(
-				properties.get(PROP_ALLOW_COMPRESSION), true));
-		server.setMaxRetries(Utils.toInt(
-				properties.get(PROP_MAX_RETRIES), 1)); // defaults
-														// to 0.
-														// > 1
-														// not
-														// recommended.
-		server.setParser(new BinaryResponseParser()); // binary parser is used
-														// by default
-		return server;
-	}
+    if (queryServer == null) {
+      LOGGER.error("Solr update server cannot be created before the query server");
+      return null;
+    }
+    String url = Utils.toString(properties.get(PROP_SOLR_URL),
+        "http://localhost:8983/solr");
+    StreamingUpdateSolrServer server = new StreamingUpdateSolrServer(url,
+        queryServer.getHttpClient(),
+        Utils.toInt(properties.get(PROP_QUEUE_SIZE), 100),
+        Utils.toInt(properties.get(PROP_THREAD_COUNT), 10));
+    return server;
+  }
 	
 	
 
