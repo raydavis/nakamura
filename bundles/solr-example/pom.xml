@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!--
+    Warning: specifying oss-parent version 7 as the parent POM will trigger injection errors from maven-scm-plugin.
+  -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.solr</groupId>
+  <version>4.0.0-ALPHA</version>
+  <artifactId>solr-example</artifactId>
+  <name>JAR wrapper of org.apache.solr/example</name>
+  <description>
+    Package the "example" Solr server directory as a JAR for easier reuse.
+  </description>
+  <packaging>jar</packaging>
+  <properties>
+    <solr.scm.url>scm:svn:http://svn.apache.org/repos/asf/lucene/dev</solr.scm.url>
+    <solr.scm.tag>lucene_solr_4_0_0_ALPHA</solr.scm.tag>
+    <solr.srcdir>${project.build.directory}/solr-src</solr.srcdir>
+    <solr.version>4.0.0-ALPHA</solr.version>
+  </properties>
+  <build>
+    <resources>
+      <resource>
+        <directory>${solr.srcdir}/solr/example</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <classesDirectory>${solr.srcdir}/solr/example</classesDirectory>
+          <archive>
+            <manifestEntries>
+              <SCM-URL>${solr.scm.url}</SCM-URL>
+              <SCM-Revision>${solr.revision}</SCM-Revision>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>checkout-solr</id>
+            <goals><goal>checkout</goal></goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <connectionUrl>${solr.scm.url}</connectionUrl>
+              <checkoutDirectory>${solr.srcdir}</checkoutDirectory>
+              <scmVersion>${solr.scm.tag}</scmVersion>
+              <scmVersionType>tag</scmVersionType>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.ivy</groupId>
+            <artifactId>ivy</artifactId>
+            <version>2.2.0</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>build-solr-example</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <exportAntProperties>true</exportAntProperties>
+              <target>
+                <dependencyfilesets prefix="mydeps."/>
+                <echo message="Now in process-resources"/>
+                <exec dir="${solr.srcdir}" executable="svnversion" outputproperty="solr.revision">
+                </exec>
+                <echo message="solr revision = ${solr.revision}"/>
+                <ant target="resolve" dir="${solr.srcdir}/solr/example"/>
+                <copy todir="${solr.srcdir}/solr/example/webapps">
+                  <fileset refid="mydeps.org.apache.solr:solr:war"/>
+                </copy>
+                <delete includeemptydirs="true">
+                  <fileset dir="${solr.srcdir}/solr/example/work" includes="**/*"/>
+                </delete>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr</artifactId>
+      <version>${solr.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+</project>
